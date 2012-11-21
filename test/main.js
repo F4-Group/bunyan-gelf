@@ -114,8 +114,8 @@ describe('When converting a bunyan record to GELF', function(){
         done();
     });
 
-    it('should use level as level', function(done){
-      gelf.should.have.property('level', record.level);
+    it('should send level as _level', function(done){
+      gelf.should.have.property('_level', record.level);
       done();
     });
 
@@ -168,6 +168,54 @@ describe('When converting a bunyan record to GELF', function(){
       gelf.should.have.property('_src.func', record.src.func);
       done();
     });
+
+});
+
+describe('When converting bunyan levels', function(){
+  var syslog = { emergency: 0 ,alert: 1 ,critical: 2, error: 3, warning: 4 ,informational: 6 ,debug: 7, notice: 5 }
+    , levels = { fatal: 60, error: 50, warn: 40, info: 30, debug: 20, trace: 10};
+
+  it('should send trace as syslog.debug',function(done){
+    var gelf = stream.createMessage({level: levels.trace});
+    gelf.should.have.property('level', syslog.debug);
+    gelf.should.have.property('_level', levels.trace);
+    done();
+  });
+
+  it('should send debug as syslog.debug',function(done){
+    var gelf = stream.createMessage({level: levels.debug});
+    gelf.should.have.property('level', syslog.debug);
+    gelf.should.have.property('_level', levels.debug);
+    done();
+  });
+
+  it('should send info as syslog.informational',function(done){
+    var gelf = stream.createMessage({level: levels.info});
+    gelf.should.have.property('level', syslog.informational);
+    gelf.should.have.property('_level', levels.info);
+    done();
+  });
+
+  it('should send warn as syslog.notice',function(done){
+    var gelf = stream.createMessage({level: levels.warn});
+    gelf.should.have.property('level', syslog.notice);
+    gelf.should.have.property('_level', levels.warn);
+    done();
+  });
+
+  it('should send error as syslog.error',function(done){
+    var gelf = stream.createMessage({level: levels.error});
+    gelf.should.have.property('level', syslog.error);
+    gelf.should.have.property('_level', levels.error);
+    done();
+  });
+
+  it('should send fatal as syslog.emergency',function(done){
+    var gelf = stream.createMessage({level: levels.fatal});
+    gelf.should.have.property('level', syslog.emergency);
+    gelf.should.have.property('_level', levels.fatal);
+    done();
+  });
 
 });
 
