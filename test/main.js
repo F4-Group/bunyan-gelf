@@ -1,7 +1,7 @@
 var chai = require('chai')
   , expect = chai.expect
   , should = chai.should()
-  , util = require('util')
+  , sinon = require('sinon')
   , stream = require('../lib/bunyan-gelf').createStream({
       graylogPort: 12201,
       graylogHostname: '127.0.0.1', 
@@ -9,7 +9,6 @@ var chai = require('chai')
       maxChunkSizeWan: 1420,
       maxChunkSizeLan: 8154
     });
-
 
 describe('Smoking test',function(){
     it('should create a GelfStream',function(){
@@ -50,20 +49,39 @@ describe('When logging to GELF', function(done){
     }
     , Logger = require('bunyan');
 
-  it('should return true from a write event',function(done){
+  it('should return true when writing an object (json)',function(done){
     var result = stream.write(record);
     result.should.be.equal(true);
     done();
   });
 
+  it('should return true when writing an string of object',function(done){
+    var result = stream.write(JSON.stringify(record));
+    result.should.be.equal(true);
+    done();
+  });
+
+  it('should return true when writing a faulty object and log its value as _invalidRecord',function(done){
+    var spy = sinon.spy();
+    stream.gelf.on('gelf.log', spy);
+    var result = stream.write('{ not_a_json}');
+    result.should.be.equal(true);
+    spy.called.should.equal(true);
+    spy.args[0][0].should.have.property('_invalidRecord', '{ not_a_json}');
+    done();
+  });
+
   it('should log records successfully', function(done){
-    var log = new Logger({
+    var spy = sinon.spy()
+      , log = new Logger({
         name: "mywebapp",
         level: 'trace',
         service: 'exampleapp',
         stream: stream,
       });
+    stream.gelf.on('gelf.log', spy);
     log.trace({err: 'errorname', stack:'somestack'}, 'test');
+    spy.called.should.equal(true);
     done();
   })
 });
