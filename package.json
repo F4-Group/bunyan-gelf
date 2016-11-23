@@ -2,7 +2,7 @@
   "author": "Eric Paschoalick Chaves <eric@craftti.com.br>",
   "name": "bunyan-gelf",
   "description": "A Bunyan writable stream that sends log records to a Graylog2 server or other GELF compatible log management system.",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "homepage": "http://github.com/craftti/bunyan-gelf",
   "main":"./lib/bunyan-gelf.js",
   "repository": {
