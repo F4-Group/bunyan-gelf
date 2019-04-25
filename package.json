@@ -14,7 +14,7 @@
         "flat": ">=0.2.0"
     },
     "devDependencies": {
-        "bunyan": "",
+        "bunyan": "*",
         "mocha": "^6.1.4",
         "chai": "^4.2.0",
         "sinon": "^7.3.2",
