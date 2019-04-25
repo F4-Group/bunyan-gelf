@@ -10,7 +10,7 @@
     "url": "git://github.com/craftti/bunyan-gelf.git"
   },
   "dependencies": {
-    "gelf": "git://github.com/F4-Group/gelf-node#1.2.0",
+    "gelf": "^2.0.1",
     "flat": ">=0.2.0"
     },
   "devDependencies": {
