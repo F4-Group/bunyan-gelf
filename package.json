@@ -26,6 +26,6 @@
   },
   "keywords": ["log", "logging", "bunyan", "gelf"],
   "scripts":{
-    "test":"make test"
+    "test":"mocha test"
   }
 }
