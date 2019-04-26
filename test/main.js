@@ -250,18 +250,13 @@ describe('When converting a bunyan record with an err object to GELF', function 
     };
     const gelf = stream.createMessage(record);
 
-    it('should use err.message as short_message', function (done) {
-        gelf.should.have.property('short_message', record.err.message);
+    it('should use msg and err.message as short_message', function (done) {
+        gelf.should.have.property('short_message', record.msg + "\n" + record.err.message);
         done();
     });
 
-    it('should use err.stack as full_message', function (done) {
-        gelf.should.have.property('full_message', record.err.stack);
-        done();
-    });
-
-    it('should not use msg as short_message', function (done) {
-        gelf.short_message.should.not.be.equal(record.msg);
+    it('should use msg and err.stack as full_message', function (done) {
+        gelf.should.have.property('full_message', record.msg + "\n" + record.err.stack);
         done();
     });
 
