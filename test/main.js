@@ -294,3 +294,37 @@ describe('When creating a message from a faulty record', function () {
         done();
     });
 });
+
+describe('Callback handling', function () {
+    it('Should call callback after write', function (done) {
+        stream.write({}, err => {
+            try {
+                should.not.exist(err, "stream write should not throw an error");
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
+    it('Should call callback after end', function (done) {
+        stream.end({}, err => {
+            try {
+                should.not.exist(err, "stream end should not throw an error");
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
+    it('Should send error when writing after close', function (done) {
+        stream.write({}, err => {
+            try {
+                should.exist(err, "stream write after end should throw an error");
+                err.message.should.have.string("stream not writable");
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
+});
