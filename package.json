@@ -5,7 +5,7 @@
     ],
     "name": "bunyan-gelf",
     "description": "A Bunyan writable stream that sends log records to a Graylog2 server or other GELF compatible log management system.",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "homepage": "https://github.com/F4-Group/bunyan-gelf",
     "main": "./lib/bunyan-gelf.js",
     "repository": {
