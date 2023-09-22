@@ -14,7 +14,7 @@
     },
     "dependencies": {
         "gelf": "^2.0.1",
-        "flat": ">=0.2.0"
+        "flat": "^5.0.2"
     },
     "devDependencies": {
         "bunyan": "*",
