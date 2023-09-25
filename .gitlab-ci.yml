@@ -1,18 +1,14 @@
-image: node:8
+---
 
-before_script:
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  - ssh-add <(echo "$SSH_PRIVATE_KEY")
-  - mkdir -p ~/.ssh
-  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  - npm install
+variables:
+    NODE_VERSION: 16
+    DOCKER_YAMLLINT_VERSION: 2.0.0
 
-cache:
-  key: node-8
-  paths:
-    - node_modules
+include:
+-   project: f4/gitlab-ci-tools
+    ref: master
+    file: /templates/node-js.yml
 
 test:
-  script:
+    script:
     - npm run test
